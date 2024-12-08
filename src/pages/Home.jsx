@@ -1,18 +1,33 @@
 import { Categories } from "../assets/mockData";
-// import HeroPng from "../assets/images/Hero.png";
 import HeroPng from "../assets/images/Heroimage.jpg";
 import InfoSection from "../components/InfoSection";
 import CategorySection from "../components/CategorySection";
 import { setProducts } from "../redux/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ProductsData } from "../assets/mockData";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
 function Home() {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.products); // Adjusted selector
+  const products = useSelector((state) => state.product.products); // Accessing Redux state
+  const [loading, setLoading] = useState(true); // Loading state for async data
 
   useEffect(() => {
-    dispatch(setProducts(ProductsData)); // Ensure ProductsData is structured correctly
+    const fetchProducts = async () => {
+      try {
+        // Simulate a data fetch
+        const data = await new Promise((resolve) =>
+          setTimeout(() => resolve(ProductsData), 1000)
+        );
+        dispatch(setProducts(data)); // Dispatching data to Redux store
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false); // Set loading to false after fetch
+      }
+    };
+
+    fetchProducts();
   }, [dispatch]);
 
   return (
@@ -73,20 +88,28 @@ function Home() {
       <div className="mt-8">
         <CategorySection />
       </div>
-      <div>
-        <h2>Top Products</h2>
-        <div>
-          {
-            // const data = await products;
-            //products.product.slice(0, 5).map((product, index) => {
-            //   return (
-            //     <div key={index}>
-            //       <p>{product.name}</p>
-            //     </div>
-            //   );
-            // })
-          }
-        </div>
+
+      {/* Top Products Section */}
+      <div className="mt-8">
+        <h2 className="text-2xl font-bold mb-4">Top Products</h2>
+        {loading ? (
+          <div>Loading...</div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {products.slice(0, 7).map((product, index) => (
+              <div
+                key={index}
+                className="border rounded-lg shadow-md p-4 bg-gray-50 hover:shadow-lg transition"
+              >
+                <h3 className="text-lg font-bold">{product.name}</h3>
+                <p className="text-sm text-gray-600">{product.description}</p>
+                <p className="text-red-500 font-semibold mt-2">
+                  ${product.price}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
