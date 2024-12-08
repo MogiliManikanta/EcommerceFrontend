@@ -1,7 +1,17 @@
 import { FaStar } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
+import { addToCart } from "../redux/cartSlice";
+import { useDispatch } from "react-redux";
 
 function ProductCard({ product }) {
+  const dispatch = useDispatch();
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    dispatch(addToCart(product));
+    alert("Product Added Successfully!");
+  };
+
   return (
     <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300 ease-in-out">
       <div className="relative">
@@ -31,10 +41,16 @@ function ProductCard({ product }) {
           />
         ))}
       </div>
-      <button className="mt-4 w-full bg-red-600 text-white py-2 px-4 rounded-lg font-semibold flex items-center justify-center space-x-2 hover:bg-red-700 transition-all">
-        <FaPlus className="text-sm" />
-        <span>Add to Cart</span>
-      </button>
+      <div
+        className="absolute bottom-4 right-2 flex items-center justify-center w-8 h-8 bg-red-600
+      group text-white text-sm rounded-full hover:w-32 hover:bg-red-700 transition-all duration-100"
+        onClick={(e) => handleAddToCart(e, product)}
+      >
+        <span className="group-hover:hidden cursor-pointer">+</span>
+        <span className="hidden group-hover:block cursor-pointer">
+          Add to Cart
+        </span>
+      </div>
     </div>
   );
 }
