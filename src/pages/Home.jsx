@@ -6,6 +6,7 @@ import { setProducts } from "../redux/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ProductsData } from "../assets/mockData";
 import { useEffect, useState } from "react";
+import ProductCard from "../components/ProductCard";
 
 function Home() {
   const dispatch = useDispatch();
@@ -95,19 +96,13 @@ function Home() {
         {loading ? (
           <div>Loading...</div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.slice(0, 7).map((product, index) => (
-              <div
-                key={index}
-                className="border rounded-lg shadow-md p-4 bg-gray-50 hover:shadow-lg transition"
-              >
-                <h3 className="text-lg font-bold">{product.name}</h3>
-                <p className="text-sm text-gray-600">{product.description}</p>
-                <p className="text-red-500 font-semibold mt-2">
-                  ${product.price}
-                </p>
-              </div>
-            ))}
+          <div>
+            {/* <h2>Top Products</h2>*/}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
+              {products.map((product, index) => (
+                <ProductCard key={index} product={product} />
+              ))}
+            </div>
           </div>
         )}
       </div>
