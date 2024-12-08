@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import cartEmptyImage from "../assets/images/cartEmptyImage.jpg";
 import { FaTrashAlt } from "react-icons/fa";
+import Modal from "../components/Modal";
+import ChangeAddress from "../components/ChangeAddress";
 function Cart() {
   const cart = useSelector((state) => state.cart);
   const [address, setAddress] = useState("Sagar Colony Chinna Jaggampeta");
+  const [isModelOpen, setIsModelOpen] = useState(false);
   return (
     <div className="container mx-auto py-8 min-h-96 px-4 md:px-16 lg:px-24">
       {cart.products.length > 0 ? (
@@ -51,11 +54,7 @@ function Cart() {
                         </div>
                         <div>
                           {/*   {console.log(product)}*/}
-                          <p>
-                            ₹
-                            {Number(product.price.replace(/₹|,/g, "")) *
-                              product.quantity}
-                          </p>
+                          <p>₹{Number(product.price * product.quantity)}</p>
 
                           <button className="text-red-500 hover:text-red-700">
                             <FaTrashAlt />
@@ -76,9 +75,12 @@ function Cart() {
             </div>
             <div className="mb-4 border-b pb-2">
               <p>Shipping : </p>
-              <p className="ml-2">Shipping to </p>
+              <span className="ml-2">Shipping to </span>
               <span className="text-xs font-bold">{address}</span>
-              <button className="text-blue-500 hover:underline mt-1 ml-2">
+              <button
+                className="text-blue-500 hover:underline mt-1 ml-2"
+                onClick={() => setIsModelOpen(true)}
+              >
                 change address
               </button>
             </div>
@@ -90,6 +92,12 @@ function Cart() {
               </button>
             </div>
           </div>
+          <Modal isModelOpen={isModelOpen} setIsModelOpen={setIsModelOpen}>
+            <ChangeAddress
+              setAddress={setAddress}
+              setIsModelOpen={setIsModelOpen}
+            />
+          </Modal>
         </div>
       ) : (
         <div className="flex justify-center">
