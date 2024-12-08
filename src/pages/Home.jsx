@@ -3,7 +3,18 @@ import { Categories } from "../assets/mockData";
 import HeroPng from "../assets/images/Heroimage.jpg";
 import InfoSection from "../components/InfoSection";
 import CategorySection from "../components/CategorySection";
+import { setProducts } from "../redux/productSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { ProductsData } from "../assets/mockData";
+import { useEffect } from "react";
 function Home() {
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.products); // Adjusted selector
+
+  useEffect(() => {
+    dispatch(setProducts(ProductsData)); // Ensure ProductsData is structured correctly
+  }, [dispatch]);
+
   return (
     <div className="bg-white mt-2 px-4 md:px-16 lg:px-24">
       <div className="container mx-auto py-4 flex flex-col md:flex-row md:space-x-4">
@@ -30,7 +41,7 @@ function Home() {
           <div className="relative h-96 rounded-lg overflow-hidden shadow-lg">
             <img
               src={HeroPng}
-              alt="heropng"
+              alt="Hero"
               className="h-full w-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-gray-700 opacity-80"></div>
@@ -61,6 +72,21 @@ function Home() {
       </div>
       <div className="mt-8">
         <CategorySection />
+      </div>
+      <div>
+        <h2>Top Products</h2>
+        <div>
+          {
+            // const data = await products;
+            //products.product.slice(0, 5).map((product, index) => {
+            //   return (
+            //     <div key={index}>
+            //       <p>{product.name}</p>
+            //     </div>
+            //   );
+            // })
+          }
+        </div>
       </div>
     </div>
   );
