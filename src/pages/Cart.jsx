@@ -9,12 +9,13 @@ import {
   increaseQuantity,
   decreaseQuantity,
 } from "../redux/cartSlice";
-
+import { useNavigate } from "react-router-dom";
 function Cart() {
   const cart = useSelector((state) => state.cart);
   const [address, setAddress] = useState("Sagar Colony Chinna Jaggampeta");
   const [isModelOpen, setIsModelOpen] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   return (
     <div className="container mx-auto py-8 min-h-96 px-4 md:px-16 lg:px-24">
       {cart.products.length > 0 ? (
@@ -109,7 +110,10 @@ function Cart() {
             <div className="flex justify-between mb-4">
               <span>Total Price : </span>
               <span>{cart.totalPrice}</span>
-              <button className="w-full bg-red-600 text-white py-2 hover:bg-red-800">
+              <button
+                className="w-full bg-red-600 text-white py-2 hover:bg-red-800"
+                onClick={() => navigate("/checkout")}
+              >
                 Proceed to Check Out
               </button>
             </div>
