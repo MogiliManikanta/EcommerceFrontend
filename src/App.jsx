@@ -8,6 +8,7 @@ import CheckOut from "./pages/CheckOut";
 import { useState } from "react";
 import OrderConfirmation from "./pages/OrderConfirmation";
 import FilterData from "./pages/FilterData";
+import ProductInformation from "./pages/ProductInformation";
 function App() {
   const [order, setOrder] = useState(null);
   return (
@@ -23,6 +24,7 @@ function App() {
           element={<OrderConfirmation order={order} />}
         />
         <Route path="/filter-data" element={<FilterData />} />
+        <Route path="/product/:id" element={<ProductInformation />} />
       </Routes>
       <Footer />
     </BrowserRouter>

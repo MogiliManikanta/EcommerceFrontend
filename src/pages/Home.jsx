@@ -81,9 +81,14 @@ function Home() {
         {loading ? (
           <div className="text-center text-xl text-gray-500">Loading...</div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {products.map((product, index) => (
-              <ProductCard key={index} product={product} />
+              <div
+                key={index}
+                className="transform transition-transform duration-200 hover:scale-105"
+              >
+                <ProductCard product={product} />
+              </div>
             ))}
           </div>
         )}
