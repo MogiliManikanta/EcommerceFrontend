@@ -1,21 +1,27 @@
 import { FaStar } from "react-icons/fa";
-import { FaPlus } from "react-icons/fa";
 import { addToCart } from "../redux/cartSlice";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ProductCard({ product }) {
   const dispatch = useDispatch();
+
   const handleAddToCart = (e) => {
     e.stopPropagation();
     e.preventDefault();
     dispatch(addToCart(product));
-    alert("Product Added Successfully!");
+    toast.success("Product added to cart!", {
+      autoClose: 2000,
+      hideProgressBar: true,
+      position: "top-center", // Customize the position for within the component
+    });
   };
 
   return (
     <Link to={`/product/${product.id}`}>
-      <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300 ease-in-out">
+      <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300 ease-in-out relative">
         <div className="relative">
           <img
             src={product.image}
@@ -45,13 +51,17 @@ function ProductCard({ product }) {
         </div>
         <div
           className="absolute bottom-4 right-2 flex items-center justify-center w-8 h-8 bg-red-600
-      group text-white text-sm rounded-full hover:w-32 hover:bg-red-700 transition-all duration-100"
-          onClick={(e) => handleAddToCart(e, product)}
+          group text-white text-sm rounded-full hover:w-32 hover:bg-red-700 transition-all duration-100"
+          onClick={(e) => handleAddToCart(e)}
         >
           <span className="group-hover:hidden cursor-pointer">+</span>
           <span className="hidden group-hover:block cursor-pointer">
             Add to Cart
           </span>
+        </div>
+        {/* Place ToastContainer here */}
+        <div className="absolute top-0 left-0 z-50">
+          <ToastContainer />
         </div>
       </div>
     </Link>
